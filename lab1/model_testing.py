@@ -1,12 +1,21 @@
+import os
+
 import pandas as pd
-from sklearn.metrics import accuracy_score
+import joblib
+from sklearn.metrics import mean_squared_error
 
-# Загрузка данных из внешнего файла в DataFrame
-data_df = pd.read_csv('путь_к_файлу.csv')
+preprocessed_dir = 'preprocessed'
+model_file = 'linear_regression_model.pkl'
 
-true_labels = data_df['Average Temperature']
-predicted_labels = pd.read_csv('путь_к_файлу_с_предсказанными_метками.csv')['Average Temperature']
+data_df_test = pd.read_csv(os.path.join(preprocessed_dir, 'preprocessed_test.csv'))
 
-# Рассчитываем accuracy
-accuracy = accuracy_score(true_labels, predicted_labels)
-print("Accuracy:", accuracy)
+model = joblib.load(model_file)
+
+X_test = data_df_test[['AverageTemperatureUncertainty']]
+y_test = data_df_test['AverageTemperature']
+
+predictions = model.predict(X_test)
+
+# Рассчитываем среднеквадратичную ошибку (MSE)
+mse = mean_squared_error(y_test, predictions)
+print("Mean Squared Error:", mse)
