@@ -6,8 +6,8 @@ from sklearn.linear_model import LinearRegression
 data_df = pd.read_csv('путь_к_файлу.csv')
 
 # Предположим, что 'X' содержит признаки, а 'y' - целевую переменную
-X = data_df.drop(columns=['целевая_переменная'])  # Удалить столбец с целевой переменной и использовать остальные столбцы как признаки
-y = data_df['целевая_переменная']  # Выделить столбец с целевой переменной
+X = data_df.drop(columns=['Average Temperature'])  # Удалить столбец с целевой переменной и использовать остальные столбцы как признаки
+y = data_df['Average Temperature']  # Выделить столбец с целевой переменной
 
 # Разделение данных на обучающий и тестовый наборы
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -22,7 +22,7 @@ model.fit(X_train, y_train)
 predictions = model.predict(X_test)
 
 # Создание DataFrame с предсказаниями
-predictions_df = pd.DataFrame(predictions, columns=['предсказанные_значения'])
+predictions_df = pd.DataFrame(predictions, columns=['Average Temperature'])
 
 # Запись предсказанных значений в CSV файл
 predictions_df.to_csv('путь_к_файлу_с_предсказаниями.csv', index=False)
