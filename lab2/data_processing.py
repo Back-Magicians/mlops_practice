@@ -1,15 +1,25 @@
 import pandas as pd
 import os
 from sklearn.model_selection import train_test_split
+import data_engineering
 
 if os.path.exists('data'):
     # Чтение данных из файла .csv
     df = pd.read_csv('data/data.csv')
 
     # Проведение обработки данных, выделение важных признаков
-    # Пример обработки данных: удаление ненужных столбцов
-    # important_features = ['feature1', 'feature2', 'feature3']
-    # df = df[important_features]
+    df.dropna(subset=['Name'], inplace=True)
+
+    df['User_Score'] = pd.to_numeric(df['User_Score'], errors='coerce')
+    df['User_Score'] = df['User_Score'].astype(float)
+
+    df = data_engineering.filling_nan_KNN_method(df)
+    df = data_engineering.fill_columns_median_value(df)
+
+    # Проверка на пустые значения в записях
+    df_nan_columns = df.columns[df.isnull().sum() != 0]
+    if len(df_nan_columns) != 0:
+        print('В датасете присутсвуют NaN')
 
     # Разделение данных на тренировочный и тестовый датасеты
     X = df.drop('User_Score', axis=1)  # Признаки
