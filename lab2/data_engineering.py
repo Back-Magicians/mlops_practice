@@ -1,13 +1,14 @@
 import pandas as pd
 from sklearn.impute import KNNImputer
 
+
 def filling_nan_KNN_method(data):
     ds = data.copy()
-    ds = ds.select_dtypes(['float64', 'int64'])
+    ds = ds.select_dtypes(["float64", "int64"])
 
     ds_nan_columns = ds.columns[ds.isnull().sum() != 0]
 
-    imputer = KNNImputer(n_neighbors=5, weights='uniform')
+    imputer = KNNImputer(n_neighbors=5, weights="uniform")
     imputer.fit(ds)
 
     ds = pd.DataFrame(imputer.transform(ds), index=ds.index, columns=ds.columns)
