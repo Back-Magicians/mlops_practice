@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.impute import KNNImputer
-from sklearn.preprocessing import OrdinalEncoder
 import json
 
 def filling_nan_KNN_method(data):
@@ -32,18 +31,11 @@ def fill_columns_median_value(data):
 
 def ordinal_coding(data):
 
-    ordinal_encoder = OrdinalEncoder()
+    with open('encoding_dict.json', 'r') as json_file:
+        encoding_dict = json.load(json_file)
 
-    columns_to_encode = data.select_dtypes(['object']).columns
-
-    data[columns_to_encode] = ordinal_encoder.fit_transform(data[columns_to_encode])
-
-    # Получение словаря с кодами
-    encoding_dict = {}
-    for i, col in enumerate(columns_to_encode):
-        encoding_dict[col] = {value: code for code, value in enumerate(ordinal_encoder.categories_[i])}
-
-    with open('encoding_dict.json', 'w') as json_file:
-        json.dump(encoding_dict, json_file)
+    # Применение словаря кодировок к новым данным
+    for column, encoding_mapping in encoding_dict.items():
+        data[column] = data[column].map(encoding_mapping)
 
     return data
