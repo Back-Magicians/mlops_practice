@@ -8,7 +8,7 @@ y_test = pd.read_csv("data/y_test.csv")
 with open("model.pickle", "rb") as f:
     model = pickle.load(f)
 
-X_test = pd.get_dummies(X_test)
+# X_test = pd.get_dummies(X_test)
 
 predictions = model.predict(X_test)
 

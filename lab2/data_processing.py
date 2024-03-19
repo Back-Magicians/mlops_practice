@@ -12,14 +12,21 @@ if os.path.exists("data"):
     # Проведение обработки данных, выделение важных признаков
     df.dropna(subset=["Name"], inplace=True)
 
+    # Удаление столбца Name -> уникальное значение
+    if 'Name' in df.columns:
+        df = df.drop(columns=['Name'])
+
     df["User_Score"] = pd.to_numeric(df["User_Score"], errors="coerce")
     df["User_Score"] = df["User_Score"].astype(float)
 
+    df = data_engineering.ordinal_coding(df)
     df = data_engineering.filling_nan_KNN_method(df)
     df = data_engineering.fill_columns_median_value(df)
 
+
     # Проверка на пустые значения в записях
     df_nan_columns = df.columns[df.isnull().sum() != 0]
+
     if len(df_nan_columns) != 0:
         print("В датасете присутсвуют NaN")
 
