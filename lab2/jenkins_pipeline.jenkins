@@ -1,0 +1,41 @@
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label 'master'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timesramos()
+    }
+    stages {
+        stage('Download Data') {
+            steps {
+                script {
+                    sh 'python download_data.py'
+                }
+            }
+        }
+        stage('Data Processing') {
+            steps {
+                script {
+                    sh 'python data_processing.py'
+                }
+            }
+        }
+        stage('Model Training') {
+            steps {
+                script {
+                    sh 'python model_training.py'
+                }
+            }
+        }
+        stage('Model Testing') {
+            steps {
+                script {
+                    sh 'python model_testing.py'
+                }
+            }
+        }
+    }
+}
