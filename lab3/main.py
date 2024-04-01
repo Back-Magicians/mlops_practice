@@ -3,15 +3,15 @@ import cv2
 import numpy as np
 
 # тестовое изображение и фон
-image = 'datasets/obj2.jpg'
-background = 'background/back4.jpg'
+IMAGE = 'datasets/obj2.jpg'
+BACKGROUND = 'background/back4.jpg'
 
 # преобразуем данные в байтовый формат
 # в таком виде получаем данные с вебки
-data_img = cv2.imread(image)
+data_img = cv2.imread(IMAGE)
 data_img_bytes = cv2.imencode('.jpg', data_img)[1].tobytes()
 
-back_img = cv2.imread(background)
+back_img = cv2.imread(BACKGROUND)
 back_img_bytes = cv2.imencode('.jpg', back_img)[1].tobytes()
 
 # преобразуем данные из байтов в обычные
