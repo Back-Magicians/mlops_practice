@@ -1,0 +1,5 @@
+[core]
+    remote = weaselremote
+['remote "weaselremote"']
+    url = s3://lab4
+    endpointurl = http://194.87.35.95:9000
