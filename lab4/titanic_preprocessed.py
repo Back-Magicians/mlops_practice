@@ -6,4 +6,4 @@ mean_age = df['Age'].mean()
 
 df['Age'] = df['Age'].fillna(mean_age)
 
-df.to_csv("titanic_train_v2.csv", index=False)
+df.to_csv("dataset/titanic_train_v2.csv", index=False)
